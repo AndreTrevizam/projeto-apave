@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("projeto-apave")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+148af98d89b6079b12fdaed814cd15d07bd8657f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b75267a4e3556d94d63cae1886840f6839da0ccc")]
 [assembly: System.Reflection.AssemblyProductAttribute("projeto-apave")]
 [assembly: System.Reflection.AssemblyTitleAttribute("projeto-apave")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
