@@ -22,7 +22,7 @@ public class Usuario
   [Required]
   public TipoUsuario Tipo { get; set; } = TipoUsuario.Cliente;
   public DateTime DataCriacao { get; set; } = DateTime.Now;
-  public DateTime DataAlteracao { get; set; } = DateTime.Now;
+  public DateTime? DataAlteracao { get; set; }
 
 
   public enum TipoUsuario {
