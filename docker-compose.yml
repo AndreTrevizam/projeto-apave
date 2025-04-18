@@ -1,0 +1,11 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    ports:
+      - "1500:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "SenhaDocker123!"
+      MSSQL_PID: "Developer"
+    restart: always
