@@ -1,31 +1,11 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using projeto_apave.Models;
+using Microsoft.AspNetCore.Authorization;
 
-namespace projeto_apave.Controllers;
-
-public class HomeController : Controller
-{
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
-
-    public IActionResult Index()
-    {
-        return View();
-    }
-
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
+[Authorize(AuthenticationSchemes = "Autentificacao")]
+public class HomeController : Controller {
+  public IActionResult Index() {
+    var nome = User.Identity.Name;
+    ViewBag.Nome = nome;
+    return View();
+  }
 }
