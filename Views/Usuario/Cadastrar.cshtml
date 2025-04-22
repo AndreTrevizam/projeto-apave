@@ -1,0 +1,54 @@
+@{
+  ViewData["Title"] = "Cadastrar";
+}
+
+@model Usuario
+
+<h1 class="text-center my-4">Cadastro</h1>
+
+@if (ViewBag.Erro != null)
+{
+    <div class="alert alert-danger text-center">@ViewBag.Erro</div>
+}
+
+<form asp-action="Cadastrar" method="post" class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="Nome" class="form-label">Nome</label>
+                <input type="text" asp-for="Nome" class="form-control" placeholder="Nome" required>
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="Email" class="form-label">Email</label>
+                <input type="text" asp-for="Email" class="form-control" placeholder="Email" required>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="Senha" class="form-label">Senha</label>
+                <input type="password" asp-for="Senha" class="form-control" placeholder="Senha" required>
+                <span asp-validation-for="Senha" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="Telefone" class="form-label">Telefone (Opcional)</label>
+                <input type="text" asp-for="Telefone" class="form-control" placeholder="Telefone" 
+                       pattern="^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$" 
+                       title="Informe um telefone válido. Ex: (11) 91234-5678">
+                <span asp-validation-for="Telefone" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
+        </div>
+    </div>
+</form>
+
+<div class="text-center mt-3">
+    <a href="/Usuario/Login">Já tem conta? Faça login</a>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

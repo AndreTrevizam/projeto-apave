@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1 class="text-center my-4">Login</h1>
+
+@if (ViewBag.Erro != null)
+{
+    <div class="text-center">
+        <p style="color:red">@ViewBag.Erro</p>
+    </div>
+}
+
+<form method="post" class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="Email" class="form-label">Email</label>
+                <input name="email" placeholder="Email" required class="form-control"/>
+            </div>
+
+            <div class="mb-3">
+                <label for="Senha" class="form-label">Senha</label>
+                <input name="senha" placeholder="Senha" type="password" required class="form-control"/>
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary w-100">Entrar</button>
+            </div>
+
+        </div>
+    </div>
+    
+    
+</form>
+
+<div class="text-center">
+    <a href="/Usuario/Cadastrar">Criar Conta</a>
+</div>
