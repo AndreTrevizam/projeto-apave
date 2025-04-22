@@ -5,17 +5,18 @@ public class Usuario
   [Key]
   public int Id { get; set; }
 
-  [Required]
+  [Required(ErrorMessage = "O nome é obrigatório.")]
   public string Nome { get; set; }
 
-  [EmailAddress, Required]
+  [EmailAddress, Required(ErrorMessage = "O Email é obrigatório.")]
   public string Email { get; set; }
 
-  [MinLength(6), Required]
+  [MinLength(6), Required(ErrorMessage = "A senha é obrigatória.")]
   public string Senha { get; set; }
 
   // Campos especificos para cliente
-  [StringLength(20)]
+  [RegularExpression(@"^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$", 
+    ErrorMessage = "Informe um telefone válido."), MaxLength(20)]
   public string? Telefone { get; set; }
 
   // O default de criação de um usuário é do tipo Cliente
