@@ -12,8 +12,8 @@ using projeto_apave.Data;
 namespace projeto_apave.Migrations
 {
     [DbContext(typeof(DbApave))]
-    [Migration("20250421135744_AdicionarIndiceUnicoEmail")]
-    partial class AdicionarIndiceUnicoEmail
+    [Migration("20250423002328_AdicionarChaveCompostaPainelPeca")]
+    partial class AdicionarChaveCompostaPainelPeca
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -90,6 +90,12 @@ namespace projeto_apave.Migrations
 
             modelBuilder.Entity("PainelPeca", b =>
                 {
+                    b.Property<int>("PainelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PecaId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("DataAtualizacao")
                         .HasColumnType("datetime2");
 
@@ -99,19 +105,13 @@ namespace projeto_apave.Migrations
                     b.Property<DateTime>("DataInstalacao")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PainelId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PecaId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Quantidade")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.HasIndex("PainelId");
+                    b.HasKey("PainelId", "PecaId");
 
                     b.HasIndex("PecaId");
 
