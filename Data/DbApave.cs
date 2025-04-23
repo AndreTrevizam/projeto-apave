@@ -18,8 +18,11 @@ public class DbApave : DbContext
     modelBuilder.Entity<Usuario>()
       .HasIndex(u => u.Email)
       .IsUnique();
+  
+    // Chave composta
+    modelBuilder.Entity<PainelPeca>()
+      .HasKey(pp => new { pp.PainelId, pp.PecaId });
 
-    modelBuilder.Entity<PainelPeca>().HasNoKey();
     base.OnModelCreating(modelBuilder);
   }
 }

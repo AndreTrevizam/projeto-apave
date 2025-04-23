@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace projeto_apave.Migrations
 {
     /// <inheritdoc />
-    public partial class Tabelas : Migration
+    public partial class AdicionarChaveCompostaPainelPeca : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -52,7 +52,7 @@ namespace projeto_apave.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Senha = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Telefone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Tipo = table.Column<int>(type: "int", nullable: false),
@@ -101,6 +101,7 @@ namespace projeto_apave.Migrations
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_PainelPeca", x => new { x.PainelId, x.PecaId });
                     table.ForeignKey(
                         name: "FK_PainelPeca_Painel_PainelId",
                         column: x => x.PainelId,
@@ -121,14 +122,15 @@ namespace projeto_apave.Migrations
                 column: "PainelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PainelPeca_PainelId",
-                table: "PainelPeca",
-                column: "PainelId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PainelPeca_PecaId",
                 table: "PainelPeca",
                 column: "PecaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Usuario_Email",
+                table: "Usuario",
+                column: "Email",
+                unique: true);
         }
 
         /// <inheritdoc />
