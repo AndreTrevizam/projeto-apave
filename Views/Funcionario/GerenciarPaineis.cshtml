@@ -1,0 +1,48 @@
+@model List<Painel>
+
+@{
+    ViewData["Title"] = "Gerenciar Painéis";
+}
+
+<div>
+    <h2>Gerenciar Painéis</h2>
+    <p>Lista de painéis cadastrados.</p>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Nenhum painel cadastrado.</div> <!-- Corrigido aqui -->
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Dono</th>
+                <th>Data de Criação</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var paineis in Model)
+            {
+                <tr>
+                    <td>@paineis.Nome</td>
+                    <td>@paineis.Descricao</td>
+                    <td>@(paineis.Usuario?.Nome ?? "Sem dono")</td> <!-- Corrigido aqui -->
+                    <td>@paineis.DataCriacao.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <a href="#" class="btn btn-sm btn-warning">Editar</a>
+                        <a href="#" class="btn btn-sm btn-danger">Excluir</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<div>
+  <a href="/Home/Funcionario" class="btn btn-primary">Voltar</a>
+</div>

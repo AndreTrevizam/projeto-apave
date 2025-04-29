@@ -1,0 +1,42 @@
+@{
+    ViewData["Title"] = "Adicionar Peça ao Painel";
+    var paineis = ViewBag.Paineis as List<Painel>;
+    var pecas = ViewBag.Pecas as List<Peca>;
+}
+
+<h2>Adicionar Peça ao Painel</h2>
+
+<form id="formAdicionarPeca">
+    <div class="form-group">
+        <label for="painelId">Painel</label>
+        <select id="painelId" class="form-control" required>
+            <option value="">Selecione um painel</option>
+            @foreach (var painel in paineis)
+            {
+                <option value="@painel.Id">@painel.Nome</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="pecaId">Peça</label>
+        <select id="pecaId" class="form-control" required>
+            <option value="">Selecione uma peça</option>
+            @foreach (var peca in pecas)
+            {
+                <option value="@peca.Id">@peca.Nome</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="quantidade">Quantidade</label>
+        <input type="number" id="quantidade" class="form-control" min="1" required />
+    </div>
+
+    <button type="submit" class="btn btn-success mt-3">Adicionar Peça</button>
+</form>
+
+<div>
+  <a href="/Home/Funcionario" class="btn btn-primary">Voltar</a>
+</div>
