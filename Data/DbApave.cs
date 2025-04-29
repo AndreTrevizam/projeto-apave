@@ -12,6 +12,7 @@ public class DbApave : DbContext
   public DbSet<PainelPeca> PainelPeca { get; set; }
   public DbSet<Peca> Peca { get; set; }
   public DbSet<Usuario> Usuario { get; set; }
+  public DbSet<SolicitacaoPainel> SolicitacaoPainel { get; set; }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
