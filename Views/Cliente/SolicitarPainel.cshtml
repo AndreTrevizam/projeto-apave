@@ -1,0 +1,23 @@
+@{
+    ViewData["Title"] = "Solicitar Novo Painel";
+}
+
+<h2>Solicitar Novo Painel</h2>
+
+<form method="post" action="/Cliente/SolicitarPainel">
+    <div class="form-group mb-3">
+        <label>Nome do Painel</label>
+        <input type="text" class="form-control" name="nomePainel" required />
+    </div>
+
+    <div class="form-group mb-3">
+        <label>Descrição</label>
+        <textarea class="form-control" name="descricao" required></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success mb-3">Enviar Solicitação</button>
+</form>
+
+<div>
+  <a href="/Home/Cliente" class="btn btn-primary">Voltar</a>
+</div>
