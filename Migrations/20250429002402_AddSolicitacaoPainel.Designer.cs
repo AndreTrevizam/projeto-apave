@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using projeto_apave.Data;
 
@@ -11,9 +12,11 @@ using projeto_apave.Data;
 namespace projeto_apave.Migrations
 {
     [DbContext(typeof(DbApave))]
-    partial class DbApaveModelSnapshot : ModelSnapshot
+    [Migration("20250429002402_AddSolicitacaoPainel")]
+    partial class AddSolicitacaoPainel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,16 +83,7 @@ namespace projeto_apave.Migrations
                     b.Property<double>("Largura")
                         .HasColumnType("float");
 
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Painel");
                 });
@@ -235,21 +229,10 @@ namespace projeto_apave.Migrations
                     b.Navigation("Painel");
                 });
 
-            modelBuilder.Entity("Painel", b =>
-                {
-                    b.HasOne("Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Usuario");
-                });
-
             modelBuilder.Entity("PainelPeca", b =>
                 {
                     b.HasOne("Painel", "Painel")
-                        .WithMany("Pecas")
+                        .WithMany()
                         .HasForeignKey("PainelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -279,8 +262,6 @@ namespace projeto_apave.Migrations
             modelBuilder.Entity("Painel", b =>
                 {
                     b.Navigation("Manutencoes");
-
-                    b.Navigation("Pecas");
                 });
 #pragma warning restore 612, 618
         }
