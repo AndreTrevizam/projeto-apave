@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using projeto_apave.Data;
 
@@ -11,9 +12,11 @@ using projeto_apave.Data;
 namespace projeto_apave.Migrations
 {
     [DbContext(typeof(DbApave))]
-    partial class DbApaveModelSnapshot : ModelSnapshot
+    [Migration("20250429012108_AddNomePainel")]
+    partial class AddNomePainel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,12 +87,7 @@ namespace projeto_apave.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Painel");
                 });
@@ -233,16 +231,6 @@ namespace projeto_apave.Migrations
                         .IsRequired();
 
                     b.Navigation("Painel");
-                });
-
-            modelBuilder.Entity("Painel", b =>
-                {
-                    b.HasOne("Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .IsRequired();
-
-                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("PainelPeca", b =>

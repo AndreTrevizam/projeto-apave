@@ -13,8 +13,10 @@ public class UsuarioController : Controller {
   }
 
   [HttpGet]
-  public IActionResult Cadastrar() {
-    return View();
+  public IActionResult Cadastrar(TipoUsuario? tipo = null) {
+    // Se nenhum tipo for especificado vai cadastrar como cliente
+    var usuario = new Usuario { Tipo = tipo ?? TipoUsuario.Cliente };
+    return View(usuario);
   }
 
   [HttpPost]
@@ -47,13 +49,16 @@ public class UsuarioController : Controller {
     if (usuario != null && BCrypt.Net.BCrypt.Verify(senha, usuario.Senha)) {
       var claims = new List<Claim> {
         new Claim(ClaimTypes.Name, usuario.Nome),
-        new Claim(ClaimTypes.Email, usuario.Email)
+        new Claim(ClaimTypes.Email, usuario.Email),
+        new Claim(ClaimTypes.Role, usuario.Tipo.ToString()),
+        new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString())
       };
 
       var identity = new ClaimsIdentity(claims, "Autentificacao");
       var principal = new ClaimsPrincipal(identity);
 
       await HttpContext.SignInAsync("Autentificacao", principal);
+
       return RedirectToAction("Index", "Home");
     }
 

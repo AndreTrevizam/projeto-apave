@@ -1,0 +1,52 @@
+@model projeto_apave.Models.Painel
+
+@{
+    ViewData["Title"] = "Editar Painel";
+}
+
+<h1 class="mb-4">Editar Painel</h1>
+
+<div class="container">
+    <form asp-action="EditarPainel" method="post" class="row g-3 needs-validation" novalidate>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="col-md-6">
+            <label asp-for="Nome" class="form-label"></label>
+            <input asp-for="Nome" class="form-control" />
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-12">
+            <label asp-for="Descricao" class="form-label"></label>
+            <textarea asp-for="Descricao" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Descricao" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Altura" class="form-label"></label>
+            <input asp-for="Altura" class="form-control" />
+            <span asp-validation-for="Altura" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Largura" class="form-label"></label>
+            <input asp-for="Largura" class="form-control" />
+            <span asp-validation-for="Largura" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Comprimento" class="form-label"></label>
+            <input asp-for="Comprimento" class="form-control" />
+            <span asp-validation-for="Comprimento" class="text-danger"></span>
+        </div>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a asp-action="GerenciarPaineis" asp-controller="Funcionario" class="btn btn-secondary ms-2">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

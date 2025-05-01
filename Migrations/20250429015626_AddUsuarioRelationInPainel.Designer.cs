@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using projeto_apave.Data;
 
@@ -11,9 +12,11 @@ using projeto_apave.Data;
 namespace projeto_apave.Migrations
 {
     [DbContext(typeof(DbApave))]
-    partial class DbApaveModelSnapshot : ModelSnapshot
+    [Migration("20250429015626_AddUsuarioRelationInPainel")]
+    partial class AddUsuarioRelationInPainel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -240,6 +243,7 @@ namespace projeto_apave.Migrations
                     b.HasOne("Usuario", "Usuario")
                         .WithMany()
                         .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Usuario");

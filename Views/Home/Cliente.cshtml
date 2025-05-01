@@ -1,0 +1,13 @@
+@{
+  ViewData["Title"] = "Home";
+}
+
+<div>
+<h1>Bem vindo, @User.Identity.Name!</h1>
+<p>Aqui você pode ver seus painéis elétricos e solicitar manutenções.</p>
+</div>
+
+<div>
+<a href="/Cliente/SolicitarPainel" class="btn btn-primary">Solicitar Novo Painel</a>
+<a href="/Cliente/MinhasSolicitacoes" class="btn btn-secondary">Minhas Solicitações</a>
+</div>

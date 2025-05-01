@@ -1,0 +1,52 @@
+@model List<projeto_apave.Models.SolicitacaoPainel>
+
+@{
+    ViewData["Title"] = "Aprovar Solicitações";
+}
+
+<h2 class="mb-4">Solicitações de Painéis Pendentes</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Nenhuma solicitação pendente no momento.</div>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Cliente</th>
+                <th>Nome do Painel</th>
+                <th>Descrição</th>
+                <th>Data da Solicitação</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var solicitacao in Model)
+            {
+                <tr>
+                    <td>@solicitacao.Usuario.Nome</td>
+                    <td>@solicitacao.NomePainel</td>
+                    <td>@solicitacao.Descricao</td>
+                    <td>@solicitacao.DataSolicitacao.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td class="d-flex gap-2">
+                        <form asp-action="Aprovar" asp-controller="Funcionario" method="post">
+                            <input type="hidden" name="id" value="@solicitacao.Id" />
+                            <button type="submit" class="btn btn-success btn-sm">Aprovar</button>
+                        </form>
+
+                        <form asp-action="Recusar" asp-controller="Funcionario" method="post">
+                            <input type="hidden" name="id" value="@solicitacao.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">Recusar</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<div>
+  <a href="/Home/Funcionario" class="btn btn-primary">Voltar</a>
+</div>
