@@ -24,6 +24,23 @@ public class DbApave : DbContext
     modelBuilder.Entity<PainelPeca>()
       .HasKey(pp => new { pp.PainelId, pp.PecaId });
 
+    // Relacionamento
+    modelBuilder.Entity<PainelPeca>()
+      .HasOne(pp => pp.Painel)
+      .WithMany(p => p.Pecas)
+      .HasForeignKey(pp => pp.PainelId);
+
+    modelBuilder.Entity<PainelPeca>()
+      .HasOne(pp => pp.Peca)
+      .WithMany()
+      .HasForeignKey(pp => pp.PecaId);
+
+    modelBuilder.Entity<Painel>()
+      .HasOne(p => p.Usuario)
+      .WithMany()
+      .HasForeignKey(p => p.UsuarioId)
+      .OnDelete(DeleteBehavior.ClientSetNull);  // Ou Restrict, conforme sua regra
+
     base.OnModelCreating(modelBuilder);
   }
 }
