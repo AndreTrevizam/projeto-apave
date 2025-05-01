@@ -31,11 +31,15 @@ else
                 <tr>
                     <td>@paineis.Nome</td>
                     <td>@paineis.Descricao</td>
-                    <td>@(paineis.Usuario?.Nome ?? "Sem dono")</td> <!-- Corrigido aqui -->
+                    <td>@(paineis.Usuario?.Nome ?? "Sem dono")</td>
                     <td>@paineis.DataCriacao.ToString("dd/MM/yyyy")</td>
                     <td>
-                        <a href="#" class="btn btn-sm btn-warning">Editar</a>
-                        <a href="#" class="btn btn-sm btn-danger">Excluir</a>
+                        <a href="/Painel/EditarPainel/@paineis.Id" class="btn btn-sm btn-warning">Editar</a>
+                        <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#modalConfirmarExclusao" data-painel-id="@paineis.Id"
+                            data-painel-nome="@paineis.Nome">
+                            Excluir
+                        </a>
                     </td>
                 </tr>
             }
@@ -43,6 +47,48 @@ else
     </table>
 }
 
+
+
 <div>
-  <a href="/Home/Funcionario" class="btn btn-primary">Voltar</a>
+    <a href="/Home/Funcionario" class="btn btn-primary">Voltar</a>
 </div>
+
+<div class="modal fade" id="modalConfirmarExclusao" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="formExcluirPainel" method="post">
+        <input type="hidden" name="id" id="painelIdExcluir" />
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLabel">Confirmar Exclusão</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          Tem certeza que deseja excluir o painel <strong id="painelNomeExcluir"></strong>?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-danger">Excluir</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+  <script>
+    const modalExcluir = document.getElementById('modalConfirmarExclusao');
+    modalExcluir.addEventListener('show.bs.modal', function (event) {
+      const button = event.relatedTarget;
+      const painelId = button.getAttribute('data-painel-id');
+      const painelNome = button.getAttribute('data-painel-nome');
+
+      document.getElementById('painelIdExcluir').value = painelId;
+      document.getElementById('painelNomeExcluir').textContent = painelNome;
+
+      // Atualiza o action do form (opcional, se for usar URL dinâmica)
+      const form = document.getElementById('formExcluirPainel');
+      form.action = `/Painel/RemoverPainel`; // ou use asp-action no form
+    });
+  </script>
+}
+
