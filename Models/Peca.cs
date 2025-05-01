@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-
+namespace projeto_apave.Models;
 public class Peca {
   [Key]
   public int Id { get; set; }
