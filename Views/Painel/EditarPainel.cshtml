@@ -40,6 +40,13 @@
             <span asp-validation-for="Comprimento" class="text-danger"></span>
         </div>
 
+        <div>
+            <a asp-action="AdicionarPeca" asp-controller="Painel" asp-route-painelId="@Model.Id"
+                class="btn btn-success">
+                Adicionar peças
+            </a>
+        </div>
+
         <div class="col-12">
             <button type="submit" class="btn btn-primary">Salvar</button>
             <a asp-action="GerenciarPaineis" asp-controller="Funcionario" class="btn btn-secondary ms-2">Cancelar</a>

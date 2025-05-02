@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using projeto_apave.Data;
 using Microsoft.AspNetCore.Authorization;
 using projeto_apave.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace projeto_apave.Controllers
 {
@@ -18,10 +19,11 @@ namespace projeto_apave.Controllers
     public IActionResult EditarPainel(int id)
     {
       var painel = _db.Painel.FirstOrDefault(p => p.Id == id);
-      if (painel == null) {
+      if (painel == null)
+      {
         return NotFound();
       }
-      
+
       return View("EditarPainel", painel);
     }
 
@@ -29,7 +31,8 @@ namespace projeto_apave.Controllers
     public IActionResult EditarPainel(Painel painel)
     {
       var painelExistente = _db.Painel.FirstOrDefault(p => p.Id == painel.Id);
-      if (painelExistente == null) {
+      if (painelExistente == null)
+      {
         return NotFound();
       }
 
@@ -38,15 +41,17 @@ namespace projeto_apave.Controllers
       painelExistente.Altura = painel.Altura;
       painelExistente.Largura = painel.Largura;
       painelExistente.Comprimento = painel.Comprimento;
-      
+
       _db.SaveChanges();
       return RedirectToAction("GerenciarPaineis", "Funcionario");
 
     }
 
-    public IActionResult Remover(int id) {
+    public IActionResult Remover(int id)
+    {
       var painel = _db.Painel.FirstOrDefault(p => p.Id == id);
-      if (painel == null) {
+      if (painel == null)
+      {
         return NotFound();
       }
 
@@ -55,9 +60,11 @@ namespace projeto_apave.Controllers
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult RemoverPainel(int id) {
+    public IActionResult RemoverPainel(int id)
+    {
       var painel = _db.Painel.Find(id);
-      if (painel == null) {
+      if (painel == null)
+      {
         return NotFound();
       }
 
@@ -65,6 +72,101 @@ namespace projeto_apave.Controllers
       _db.SaveChanges();
 
       return RedirectToAction("GerenciarPaineis", "Funcionario");
+    }
+
+    [HttpGet]
+    public IActionResult AdicionarPeca(int painelId)
+    {
+      var painel = _db.Painel.Find(painelId);
+      if (painel == null) return NotFound();
+
+      var model = new PainelPecaForm
+      {
+        PainelId = painelId,
+        PainelNome = painel.Nome,
+        PecasExistentes = _db.Peca.ToList(),
+        DataInstalacao = DateTime.Today // Valor padrão
+      };
+
+      return View(model);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> AdicionarPeca(PainelPecaForm form)
+    {
+      if (string.IsNullOrEmpty(form.NovaPecaNome) && !form.PecaExistenteId.HasValue)
+      {
+        ModelState.AddModelError(string.Empty, "Você deve cadastrar uma nova peça OU selecionar uma existente.");
+      }
+
+      bool pecaJaExiste = await _db.PainelPeca
+       .AnyAsync(pp => pp.PainelId == form.PainelId &&
+                      (form.PecaExistenteId.HasValue
+                          ? pp.PecaId == form.PecaExistenteId.Value
+                          : pp.Peca.Nome == form.NovaPecaNome));
+
+      if (pecaJaExiste)
+      {
+        ModelState.AddModelError(string.Empty, "Esta peça já está associada ao painel.");
+      }
+
+      if (ModelState.IsValid)
+      {
+        PainelPeca painelPeca = new();
+
+        // Opção 1: Nova peça
+        if (!string.IsNullOrEmpty(form.NovaPecaNome))
+        {
+          var novaPeca = new Peca
+          {
+            Nome = form.NovaPecaNome,
+            Descricao = form.NovaPecaDescricao,
+            DataCriacao = DateTime.Now
+          };
+
+          _db.Peca.Add(novaPeca);
+          _db.SaveChanges();
+
+          painelPeca.PecaId = novaPeca.Id;
+        }
+        // Opção 2: Peça existente
+        else if (form.PecaExistenteId.HasValue)
+        {
+          painelPeca.PecaId = form.PecaExistenteId.Value;
+        }
+
+        // Preenche os dados da relação
+        painelPeca.PainelId = form.PainelId;
+        painelPeca.Quantidade = form.Quantidade;
+        painelPeca.DataInstalacao = form.DataInstalacao;
+        painelPeca.Status = form.Status;
+
+        _db.PainelPeca.Add(painelPeca);
+        _db.SaveChanges();
+
+        return RedirectToAction("EditarPainel", new { id = form.PainelId });
+      }
+
+      // Recarrega dados se houver erro
+      form.PecasExistentes = _db.Peca.ToList();
+      return View(form);
+    }
+
+    [HttpGet]
+    public IActionResult ObterInformacoesPainel(int id)
+    {
+      var painel = _db.Painel
+          .Include(p => p.Usuario)
+          .Include(p => p.Pecas)
+              .ThenInclude(pp => pp.Peca)
+          .FirstOrDefault(p => p.Id == id);
+
+      if (painel == null)
+      {
+        return Content("<div class='alert alert-danger'>Painel não encontrado</div>");
+      }
+
+      return PartialView("_InformacoesPainel", painel);
     }
   }
 }

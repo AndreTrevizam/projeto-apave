@@ -1,56 +1,82 @@
 @model List<Painel>
 
 @{
-    ViewData["Title"] = "Gerenciar Painéis";
+  ViewData["Title"] = "Gerenciar Painéis";
 }
 
 <div>
-    <h2>Gerenciar Painéis</h2>
-    <p>Lista de painéis cadastrados.</p>
+  <h2>Gerenciar Painéis</h2>
+  <p>Lista de painéis cadastrados.</p>
 </div>
 
 @if (!Model.Any())
 {
-    <div class="alert alert-info">Nenhum painel cadastrado.</div> <!-- Corrigido aqui -->
+  <div class="alert alert-info">Nenhum painel cadastrado.</div> <!-- Corrigido aqui -->
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Descrição</th>
-                <th>Dono</th>
-                <th>Data de Criação</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var paineis in Model)
-            {
-                <tr>
-                    <td>@paineis.Nome</td>
-                    <td>@paineis.Descricao</td>
-                    <td>@(paineis.Usuario?.Nome ?? "Sem dono")</td>
-                    <td>@paineis.DataCriacao.ToString("dd/MM/yyyy")</td>
-                    <td>
-                        <a href="/Painel/EditarPainel/@paineis.Id" class="btn btn-sm btn-warning">Editar</a>
-                        <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                            data-bs-target="#modalConfirmarExclusao" data-painel-id="@paineis.Id"
-                            data-painel-nome="@paineis.Nome">
-                            Excluir
-                        </a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th>Dono</th>
+        <th>Data de Criação</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var paineis in Model)
+      {
+        <tr>
+          <td>@paineis.Nome</td>
+          <td>@paineis.Descricao</td>
+          <td>@(paineis.Usuario?.Nome ?? "Sem dono")</td>
+          <td>@paineis.DataCriacao.ToString("dd/MM/yyyy")</td>
+          <td>
+            <a href="/Painel/EditarPainel/@paineis.Id" class="btn btn-sm btn-warning">Editar</a>
+            <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#modalConfirmarExclusao"
+              data-painel-id="@paineis.Id" data-painel-nome="@paineis.Nome">
+              Excluir
+            </a>
+            <a href="#" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalInformacoes"
+              data-painel-id="@paineis.Id">
+              Informações
+            </a>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
 }
 
 
 
 <div>
-    <a href="/Home/Funcionario" class="btn btn-primary">Voltar</a>
+  <a href="/Home/Funcionario" class="btn btn-primary">Voltar</a>
+</div>
+
+<!-- Modal de Informações -->
+<div class="modal fade" id="modalInformacoes" tabindex="-1" aria-labelledby="modalInfoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalInfoLabel">Informações do Painel</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body" id="modalInfoBody">
+        <!-- Conteúdo será carregado via AJAX -->
+        <div class="text-center">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Carregando...</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="modal fade" id="modalConfirmarExclusao" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
@@ -89,6 +115,35 @@ else
       const form = document.getElementById('formExcluirPainel');
       form.action = `/Painel/RemoverPainel`; // ou use asp-action no form
     });
+
+    // Modal de Informações
+    const modalInfo = document.getElementById('modalInformacoes');
+    modalInfo.addEventListener('show.bs.modal', function (event) {
+      const button = event.relatedTarget;
+      const painelId = button.getAttribute('data-painel-id');
+
+      // Carrega os dados via AJAX
+      fetch(`/Painel/ObterInformacoesPainel/${painelId}`)
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('modalInfoBody').innerHTML = html;
+        })
+        .catch(error => {
+          document.getElementById('modalInfoBody').innerHTML = `
+              <div class="alert alert-danger">
+                Erro ao carregar informações: ${error.message}
+              </div>`;
+        });
+    });
+
+    // Limpa o modal quando fechar
+    modalInfo.addEventListener('hidden.bs.modal', function () {
+      document.getElementById('modalInfoBody').innerHTML = `
+          <div class="text-center">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Carregando...</span>
+            </div>
+          </div>`;
+    });
   </script>
 }
-
