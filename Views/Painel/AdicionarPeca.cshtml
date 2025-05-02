@@ -1,0 +1,89 @@
+@model projeto_apave.Models.PainelPecaForm
+
+@{
+  ViewData["Title"] = $"Adicionar Peça - {Model.PainelNome}";
+}
+
+<h2>Adicionar Peça ao Painel: @Model.PainelNome</h2>
+
+<form asp-action="AdicionarPeca" method="post">
+  <input type="hidden" asp-for="PainelId" />
+
+  <!-- Opção 1: Cadastrar nova peça -->
+  <div class="card mb-4">
+    <div class="card-header">Cadastrar Nova Peça</div>
+    <div class="card-body">
+      <div class="mb-3">
+        <label asp-for="NovaPecaNome" class="form-label">Nome da Peça</label>
+        <input asp-for="NovaPecaNome" class="form-control" />
+        <span asp-validation-for="NovaPecaNome" class="text-danger"></span>
+      </div>
+      <div class="mb-3">
+        <label asp-for="NovaPecaDescricao" class="form-label">Descrição</label>
+        <textarea asp-for="NovaPecaDescricao" class="form-control"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Opção 2: Selecionar peça existente -->
+  <div class="card mb-4">
+    <div class="card-header">OU Selecionar Peça Existente</div>
+    <div class="card-body">
+      <div class="mb-3">
+        <label class="form-label">Peças Disponíveis</label>
+        <select asp-for="PecaExistenteId" class="form-select">
+          <option value="">-- Selecione --</option>
+          @foreach (var peca in Model.PecasExistentes)
+          {
+            <option value="@peca.Id">@peca.Nome -- @peca.Descricao</option>
+          }
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Campos específicos da relação -->
+  <div class="card mb-4">
+    <div class="card-header">Detalhes da Instalação</div>
+    <div class="card-body">
+      <div class="mb-3">
+        <label asp-for="Quantidade" class="form-label"></label>
+        <input asp-for="Quantidade" type="number" min="1" class="form-control" />
+        <span asp-validation-for="Quantidade" class="text-danger"></span>
+      </div>
+
+      <div class="mb-3">
+        <label asp-for="DataInstalacao" class="form-label">Data Instalação</label>
+        <input asp-for="DataInstalacao" type="date" class="form-control" />
+        <span asp-validation-for="DataInstalacao" class="text-danger"></span>
+      </div>
+
+      <div class="mb-3">
+        <label asp-for="Status" class="form-label"></label>
+        <select asp-for="Status" class="form-select">
+          <option value="Ativo">Ativo</option>
+          <option value="Inativo">Inativo</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+  <button type="submit" class="btn btn-primary">Salvar</button>
+  <a asp-action="EditarPainel" asp-route-id="@Model.PainelId" class="btn btn-secondary">Voltar</a>
+</form>
+
+@section Scripts {
+    <script>
+        document.getElementById('pecaForm').addEventListener('submit', function(e) {
+            const novaPecaNome = document.getElementById('NovaPecaNome').value;
+            const pecaExistente = document.getElementById('pecaExistente').value;
+            
+            if (!novaPecaNome && !pecaExistente) {
+                e.preventDefault();
+                alert('Por favor, cadastre uma nova peça OU selecione uma existente.');
+            }
+        });
+    </script>
+}
