@@ -56,5 +56,15 @@ namespace projeto_apave.Controllers
 
             return View(solicitacoes);
         }
+
+        public async Task<IActionResult> MeusPaineis()
+        {
+            var usuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var paineis = await _db.Painel
+                .Where(p => p.UsuarioId == usuarioId)
+                .ToListAsync();
+
+            return View(paineis);
+        }
     }
 }
