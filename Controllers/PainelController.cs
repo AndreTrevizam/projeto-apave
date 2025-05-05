@@ -161,6 +161,7 @@ namespace projeto_apave.Controllers
     public IActionResult ObterInformacoesPainel(int id)
     {
       var painel = _db.Painel
+          .Include(p => p.Manutencoes)
           .Include(p => p.Usuario)
           .Include(p => p.Pecas)
               .ThenInclude(pp => pp.Peca)
