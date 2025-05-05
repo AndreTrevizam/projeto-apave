@@ -1,0 +1,61 @@
+@model IEnumerable<projeto_apave.Models.SolicitacaoManutencao>
+
+@{
+    bool exibirAcoes = ViewData["exibirAcoes"] != null && (bool)ViewData["exibirAcoes"];
+}
+
+@if (!Model.Any())
+{
+  <div class="alert alert-info">
+    Nenhuma solicitação encontrada nesta categoria.
+  </div>
+}
+else
+{
+
+  <table class="table">
+    <thead class="table-dark">
+      <tr>
+        <th>Cliente</th>
+        <th>Descrição da manutenção</th>
+        <th>Data de solicitação</th>
+        <th>Status</th>
+        @if (exibirAcoes)
+        {
+          <th>Ações</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var solicitao in Model)
+      {
+        <tr>
+          <td>@solicitao.Usuario.Nome</td>
+          <td>@solicitao.Descricao</td>
+          <td>@solicitao.DataSolicitacao.ToString("dd/MM/yyyy")</td>
+          <td>@solicitao.StatusManutencao</td>
+          @if (exibirAcoes)
+          {
+
+            <td>
+              @if (solicitao.StatusManutencao == StatusManutencao.Pendente)
+              {
+                <form asp-controller="Manutencao" asp-action="Atender">
+                  <input type="hidden" name="id" value="@solicitao.Id" />
+                  <button type="submit" class="btn btn-success btn-sm">Atender</button>
+                </form>
+              }
+              @if (solicitao.StatusManutencao == StatusManutencao.Atendida)
+              {
+                <form asp-controller="Manutencao" asp-action="Finalizar">
+                  <input type="hidden" name="id" value="@solicitao.Id" />
+                  <button type="submit" class="btn btn-success btn-sm">Finalizar</button>
+                </form>
+              }
+            </td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+}

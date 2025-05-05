@@ -1,0 +1,116 @@
+@model List<Painel>
+
+@{
+  ViewData["Title"] = "Meus Painéis";
+}
+
+<div>
+  <h1>Meus Painéis</h1>
+  <p>Consulte todos os seus painéis cadastrados.</p>
+</div>
+
+@if (!Model.Any())
+{
+  <div class="alert alert-info">Nenhum painel cadastrado.</div>
+}
+else
+{
+
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nome do painel</th>
+          <th>Descrição</th>
+          @* <th>Status</th> *@
+          <th>Data de criação</th>
+          <th>Opções</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var painel in Model)
+        {
+          <tr>
+            <td>@painel.Nome</td>
+            <td>@painel.Descricao</td>
+            @* <td>@painel.Status</td> *@
+            <td>@painel.DataCriacao.ToString("dd/MM/yyyy")</td>
+            <td>
+              <a href="#" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalInformacoes"
+                data-painel-id="@painel.Id">
+                Informações
+              </a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+    <a href="/Home/Cliente" class="btn btn-primary">Voltar</a>
+  </div>
+
+}
+
+<!-- Modal de Informações -->
+<div class="modal fade" id="modalInformacoes" tabindex="-1" aria-labelledby="modalInfoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalInfoLabel">Informações do Painel</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body" id="modalInfoBody">
+        <!-- Conteúdo será carregado via AJAX -->
+        <div class="text-center">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Carregando...</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+  <script>
+    const modalInfo = document.getElementById('modalInformacoes');
+    modalInfo.addEventListener('show.bs.modal', function (event) {
+      const button = event.relatedTarget;
+      const painelId = button.getAttribute('data-painel-id');
+      
+      // Mostra o spinner enquanto carrega
+      const modalBody = document.getElementById('modalInfoBody');
+      modalBody.innerHTML = `
+        <div class="text-center py-4">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Carregando...</span>
+          </div>
+          <p class="mt-2">Carregando informações do painel...</p>
+        </div>`;
+
+      // Faz a requisição AJAX
+      fetch(`/Painel/ObterInformacoesPainel/${painelId}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Erro ao carregar dados');
+          }
+          return response.text();
+        })
+        .then(html => {
+          modalBody.innerHTML = html;
+        })
+        .catch(error => {
+          modalBody.innerHTML = `
+            <div class="alert alert-danger">
+              <i class="fas fa-exclamation-triangle"></i>
+              Erro ao carregar informações: ${error.message}
+            </div>`;
+        });
+    });
+  </script>
+}

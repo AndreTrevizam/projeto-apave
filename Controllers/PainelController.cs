@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace projeto_apave.Controllers
 {
-  [Authorize(Roles = "Funcionario")]
   public class PainelController : Controller
   {
     private readonly DbApave _db;
@@ -16,6 +15,7 @@ namespace projeto_apave.Controllers
       _db = db;
     }
 
+    [Authorize(Roles = "Funcionario")]
     public IActionResult EditarPainel(int id)
     {
       var painel = _db.Painel.FirstOrDefault(p => p.Id == id);
@@ -28,6 +28,7 @@ namespace projeto_apave.Controllers
     }
 
     [HttpPost]
+    [Authorize(Roles = "Funcionario")]
     public IActionResult EditarPainel(Painel painel)
     {
       var painelExistente = _db.Painel.FirstOrDefault(p => p.Id == painel.Id);
@@ -47,6 +48,7 @@ namespace projeto_apave.Controllers
 
     }
 
+    [Authorize(Roles = "Funcionario")]
     public IActionResult Remover(int id)
     {
       var painel = _db.Painel.FirstOrDefault(p => p.Id == id);
@@ -60,6 +62,7 @@ namespace projeto_apave.Controllers
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Funcionario")]
     public IActionResult RemoverPainel(int id)
     {
       var painel = _db.Painel.Find(id);
@@ -75,6 +78,7 @@ namespace projeto_apave.Controllers
     }
 
     [HttpGet]
+    [Authorize(Roles = "Funcionario")]
     public IActionResult AdicionarPeca(int painelId)
     {
       var painel = _db.Painel.Find(painelId);
@@ -92,6 +96,7 @@ namespace projeto_apave.Controllers
     }
 
     [HttpPost]
+    [Authorize(Roles = "Funcionario")]
     public async Task<ActionResult> AdicionarPeca(PainelPecaForm form)
     {
       if (string.IsNullOrEmpty(form.NovaPecaNome) && !form.PecaExistenteId.HasValue)
@@ -152,7 +157,7 @@ namespace projeto_apave.Controllers
       return View(form);
     }
 
-    [HttpGet]
+    [Authorize(Roles = "Funcionario, Cliente")]
     public IActionResult ObterInformacoesPainel(int id)
     {
       var painel = _db.Painel

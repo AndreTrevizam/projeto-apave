@@ -2,12 +2,31 @@
   ViewData["Title"] = "Home";
 }
 
-<div>
-<h1>Bem vindo, @User.Identity.Name!</h1>
-<p>Aqui você pode ver seus painéis elétricos e solicitar manutenções.</p>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>Bem vindo, @User.Identity.Name!</h1>
+      <p>Aqui você pode ver seus painéis elétricos e solicitar manutenções.</p>
+    </div>
+
+    <div>
+      <h2>Painéis</h2>
+      <p>Gerencie seus painéis </p>
+    </div>
+
+    <div class="mb-3">
+      <a href="/Cliente/SolicitarPainel" class="btn btn-primary">Solicitar Novo Painel</a>
+      <a href="/Cliente/MeusPaineis" class="btn btn-success">Meus Painéis</a>
+      <a href="/Cliente/MinhasSolicitacoes" class="btn btn-secondary">Minhas Solicitações</a>
+    </div>
+
+    <div>
+      <h2>Manutenções</h2>
+      <p>Solicite manutenções</p>
+      <a href="/Manutencao/SolicitarManutencao" class="btn btn-primary">Solicitar Manutenção</a>
+    </div>
+    
+  </div>
 </div>
 
-<div>
-<a href="/Cliente/SolicitarPainel" class="btn btn-primary">Solicitar Novo Painel</a>
-<a href="/Cliente/MinhasSolicitacoes" class="btn btn-secondary">Minhas Solicitações</a>
-</div>
+

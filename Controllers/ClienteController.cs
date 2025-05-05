@@ -43,7 +43,6 @@ namespace projeto_apave.Controllers
             _db.SolicitacaoPainel.Add(solicitacao);
             await _db.SaveChangesAsync();
 
-            TempData["Mensagem"] = "Solicitação enviada com sucesso!";
             return RedirectToAction("MinhasSolicitacoes");
         }
 
@@ -55,6 +54,16 @@ namespace projeto_apave.Controllers
                 .ToListAsync();
 
             return View(solicitacoes);
+        }
+
+        public async Task<IActionResult> MeusPaineis()
+        {
+            var usuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var paineis = await _db.Painel
+                .Where(p => p.UsuarioId == usuarioId)
+                .ToListAsync();
+
+            return View(paineis);
         }
     }
 }

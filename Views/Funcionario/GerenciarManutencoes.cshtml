@@ -1,0 +1,23 @@
+@model IEnumerable<projeto_apave.Models.SolicitacaoManutencao>
+
+@{
+    var pendentes = Model.Where(s => s.StatusManutencao == StatusManutencao.Pendente);
+    var emAndamento = Model.Where(s => s.StatusManutencao == StatusManutencao.Atendida);
+    var finalizadas = Model.Where(s => s.StatusManutencao == StatusManutencao.Finalizada);
+}
+
+<h2 class="mb-3">Manutenções pendentes</h2>
+@{ ViewData["exibirAcoes"] = true; }
+<partial name="_TabelaManutencao" model="pendentes" />
+
+<h2 class="mb-3">Manutenções em andamento</h2>
+@{ ViewData["exibirAcoes"] = true; }
+<partial name="_TabelaManutencao" model="emAndamento" />
+
+<h2 class="mb-3">Manutenções finalizadas</h2>
+@{ ViewData["exibirAcoes"] = false; }
+<partial name="_TabelaManutencao" model="finalizadas" />
+
+<div>
+  <a href="/Home/Funcionario" class="btn btn-primary">Voltar</a>
+</div>

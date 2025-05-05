@@ -24,6 +24,15 @@ namespace projeto_apave.Controllers
             return View(paineis);
         }
 
+        public async Task<IActionResult> GerenciarManutencoes()
+        {
+            var manutencoes = await _db.SolicitacaoManutencao
+                .Include(m => m.Usuario)
+                .ToListAsync();
+
+            return View(manutencoes);
+        }
+
         public async Task<IActionResult> AprovarSolicitacoes()
         {
             var solicitacoesPendentes = await _db.SolicitacaoPainel

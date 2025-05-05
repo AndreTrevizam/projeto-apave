@@ -2,13 +2,22 @@
   ViewData["Title"] = "Home";
 }
 
-<div>
-  <h2>Olá, @User.Identity.Name!</h2>
-  <p>Você está no painel administrativo.</p>
+<div class="container">
+  <div>
+    <h1>Olá, @User.Identity.Name!</h1>
+    <p>Você está no painel administrativo.</p>
+  </div>
+
+  <div class="mb-3">
+    <h2>Painéis</h2>
+    <a href="/Funcionario/GerenciarPaineis" class="btn btn-primary">Gerenciar Painéis</a>
+    <a href="/Funcionario/AprovarSolicitacoes" class="btn btn-secondary">Aprovar Solicitações</a>
+  </div>
+
+  <div>
+    <h2>Manutenções</h2>
+    <a href="/Funcionario/GerenciarManutencoes" class="btn btn-primary">Gerenciar Manutenções</a>
+  </div>
 </div>
 
-<div>
-  <a href="/Funcionario/GerenciarPaineis" class="btn btn-primary">Gerenciar Painéis</a>
-  <a href="/Funcionario/AprovarSolicitacoes" class="btn btn-secondary">Aprovar Solicitações</a>
-</div>
 
