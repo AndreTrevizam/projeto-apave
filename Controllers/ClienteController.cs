@@ -43,7 +43,6 @@ namespace projeto_apave.Controllers
             _db.SolicitacaoPainel.Add(solicitacao);
             await _db.SaveChangesAsync();
 
-            TempData["Mensagem"] = "Solicitação enviada com sucesso!";
             return RedirectToAction("MinhasSolicitacoes");
         }
 
