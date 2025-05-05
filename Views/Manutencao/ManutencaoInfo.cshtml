@@ -1,24 +1,28 @@
+@model Painel
+
 @{
-  ViewData["Title"] = "Manutenção";
+    ViewData["Title"] = "Manutenção";
 }
 
 <div class="container">
-  <div>
-    <h1>Solicite a manutenção</h1>
-  </div>
+    <div>
+        <h1>Solicite a manutenção</h1>
+    </div>
 
-  <div>
-    <form asp-action="SolicitarManutencao" method="post">
-      <div class="form-group mb-3">
-        <label>Descreva o problema</label>
-        <textarea class="form-control" name="descricao" required></textarea>
-      </div>
+    <div>
+        <form asp-action="SolicitarManutencaoPost" method="post">
+            <input type="hidden" name="painelId" value="@Model.Id" />  <!-- Campo oculto para o PainelId -->
 
-      <button type="submit" class="btn btn-success mb-3">Enviar Solicitação</button>
-    </form>
-  </div>
+            <div class="form-group mb-3">
+                <label>Descreva o problema</label>
+                <textarea class="form-control" name="descricao" required></textarea>
+            </div>
 
-  <div>
-    <a href="/Manutencao/SolicitarManutencao" class="btn btn-primary">Voltar</a>
-  </div>
+            <button type="submit" class="btn btn-success mb-3">Enviar Solicitação</button>
+        </form>
+    </div>
+
+    <div>
+        <a href="/Manutencao/SolicitarManutencao" class="btn btn-primary">Voltar</a>
+    </div>
 </div>
