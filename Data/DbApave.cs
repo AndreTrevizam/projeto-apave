@@ -13,6 +13,7 @@ public class DbApave : DbContext
   public DbSet<Peca> Peca { get; set; }
   public DbSet<Usuario> Usuario { get; set; }
   public DbSet<SolicitacaoPainel> SolicitacaoPainel { get; set; }
+  public DbSet<SolicitacaoManutencao> SolicitacaoManutencao { get; set; }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
@@ -39,7 +40,7 @@ public class DbApave : DbContext
       .HasOne(p => p.Usuario)
       .WithMany()
       .HasForeignKey(p => p.UsuarioId)
-      .OnDelete(DeleteBehavior.ClientSetNull);  // Ou Restrict, conforme sua regra
+      .OnDelete(DeleteBehavior.ClientSetNull); 
 
     base.OnModelCreating(modelBuilder);
   }
