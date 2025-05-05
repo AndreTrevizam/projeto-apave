@@ -11,6 +11,10 @@ namespace projeto_apave.Models
     public int UsuarioId { get; set; }  // Quem fez a solicitação
     public Usuario Usuario { get; set; }
 
+    [Required]
+    public int PainelId { get; set; }
+    public Painel Painel { get; set; }
+
     [Required(ErrorMessage = "A descrição da manutenção é obrigatória.")]
     public string Descricao { get; set; }
 

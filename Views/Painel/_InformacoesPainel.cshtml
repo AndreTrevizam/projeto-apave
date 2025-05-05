@@ -2,7 +2,7 @@
 
 <div class="container-fluid">
     <h4 class="mb-3">@Model.Nome</h4>
-    
+
     <div class="row">
         <div class="col-md-6">
             <div class="card mb-3">
@@ -13,20 +13,21 @@
                     <dl class="row mb-0">
                         <dt class="col-sm-4">Descrição:</dt>
                         <dd class="col-sm-8">@Model.Descricao</dd>
-                        
+
                         <dt class="col-sm-4">Dono:</dt>
                         <dd class="col-sm-8">@(Model.Usuario?.Nome ?? "Sem dono")</dd>
-                        
-                        <dt class="col-sm-4">Data Criação:</dt>
-                        <dd class="col-sm-8">@Model.DataCriacao.ToString("dd/MM/yyyy HH:mm")</dd>
-                        
+
+                        <dt class="col-sm-4">Data:</dt>
+                        <dd class="col-sm-8">@Model.DataCriacao</dd>
+
                         <dt class="col-sm-4">Dimensões:</dt>
-                        <dd class="col-sm-8">@Model.Largura cm (L) x @Model.Altura cm (A) x @Model.Comprimento cm (C)</dd>
+                        <dd class="col-sm-8">@Model.Largura cm (L) x @Model.Altura cm (A) x @Model.Comprimento cm (C)
+                        </dd>
                     </dl>
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-6">
             <div class="card mb-3">
                 <div class="card-header bg-primary text-white">
@@ -36,10 +37,11 @@
                     @if (Model.Manutencoes?.Any() == true)
                     {
                         <ul class="list-group list-group-flush">
-                            @foreach (var manutencao in Model.Manutencoes.OrderByDescending(m => m.dataManutencao).Take(3))
+                            @foreach (var manutencao in Model.Manutencoes)
                             {
                                 <li class="list-group-item">
-                                    @manutencao.dataManutencao.ToString("dd/MM/yyyy") - @manutencao.Descricao
+                                    @manutencao.Descricao -
+                                    @manutencao.dataManutencao
                                 </li>
                             }
                         </ul>
@@ -78,7 +80,8 @@
                                     <td>@item.Quantidade</td>
                                     <td>@item.DataInstalacao.ToString("dd/MM/yyyy")</td>
                                     <td>
-                                        <span class="badge @(item.Status == StatusPainelPeca.Ativo ? "bg-success" : "bg-warning")">
+                                        <span
+                                            class="badge @(item.Status == StatusPainelPeca.Ativo ? "bg-success" : "bg-warning")">
                                             @item.Status
                                         </span>
                                     </td>

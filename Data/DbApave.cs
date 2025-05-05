@@ -42,6 +42,12 @@ public class DbApave : DbContext
       .HasForeignKey(p => p.UsuarioId)
       .OnDelete(DeleteBehavior.ClientSetNull); 
 
+    modelBuilder.Entity<Manutencao>()
+      .HasOne(m => m.Painel)
+      .WithMany(p => p.Manutencoes)
+      .HasForeignKey(m => m.PainelId)
+      .OnDelete(DeleteBehavior.Cascade);
+
     base.OnModelCreating(modelBuilder);
   }
 }

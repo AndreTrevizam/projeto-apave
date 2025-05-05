@@ -8,7 +8,8 @@ public class ManutencaoController : Controller
 {
   private readonly DbApave _db;
 
-  public ManutencaoController(DbApave db) {
+  public ManutencaoController(DbApave db)
+  {
     _db = db;
   }
 
@@ -23,39 +24,66 @@ public class ManutencaoController : Controller
   }
 
   [HttpPost]
-  public async Task<IActionResult> SolicitarManutencao(string descricao)
+  public async Task<IActionResult> SolicitarManutencaoPost(int painelId, string descricao)
   {
     var usuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+    var painel = await _db.Painel
+      .FindAsync(painelId);
+
+    if (painel == null)
+    {
+      TempData["Erro"] = "Painel não encontrado.";
+      return RedirectToAction("SolicitarManutencao");  // Redireciona de volta para a tabela
+    }
 
     var solicitacao = new SolicitacaoManutencao
     {
+      PainelId = painel.Id,
       UsuarioId = usuarioId,
       Descricao = descricao
     };
 
     _db.SolicitacaoManutencao.Add(solicitacao);
     await _db.SaveChangesAsync();
-    
+
     return RedirectToAction("SolicitarManutencao");
   }
 
-  public IActionResult ManutencaoInfo() {
-    return View();
+
+  [HttpGet]
+  public async Task<IActionResult> ManutencaoInfo(int painelId)
+  {
+    var painel = await _db.Painel
+        .FirstOrDefaultAsync(p => p.Id == painelId);
+
+    if (painel == null)
+    {
+      return RedirectToAction("SolicitarManutencao"); 
+    }
+
+    return View(painel);
   }
 
-  public async Task<IActionResult> Atender(int id) 
+  public async Task<IActionResult> Atender(int id)
   {
     var solicitacao = await _db.SolicitacaoManutencao.FindAsync(id);
     if (solicitacao == null) return NotFound();
 
     solicitacao.StatusManutencao = StatusManutencao.Atendida;
 
+    var novaManutencao = new Manutencao
+    {
+      PainelId = solicitacao.PainelId,
+      Descricao = solicitacao.Descricao,
+    };
+
+    _db.Manutencao.Add(novaManutencao);
     await _db.SaveChangesAsync();
 
     return RedirectToAction("GerenciarManutencoes", "Funcionario");
   }
 
-  public async Task<IActionResult> Finalizar(int id) 
+  public async Task<IActionResult> Finalizar(int id)
   {
     var solicitacao = await _db.SolicitacaoManutencao.FindAsync(id);
     if (solicitacao == null) return NotFound();

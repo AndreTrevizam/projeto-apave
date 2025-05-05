@@ -34,7 +34,7 @@ else
               <td>@paineis.Descricao</td>
               <td>@paineis.DataCriacao.ToString("dd/MM/yyyy")</td>
               <td>
-                <a href="ManutencaoInfo/@paineis.Id" class="btn btn-sm btn-primary">Solicitar Manutenção</a>
+                <a asp-action="ManutencaoInfo" asp-route-painelId="@paineis.Id" class="btn btn-sm btn-primary">Solicitar Manutenção</a>
               </td>
             </tr>
           }
