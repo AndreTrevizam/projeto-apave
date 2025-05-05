@@ -26,7 +26,7 @@ public class Painel
     public DateTime DataCriacao { get; set; } = DateTime.Now;
     public DateTime? DataAlteracao { get; set; }
 
-    public List<Manutencao> Manutencoes { get; set; } = new List<Manutencao>();
+    public ICollection<Manutencao> Manutencoes { get; set; } = new List<Manutencao>();
 
     public ICollection<PainelPeca> Pecas { get; set; } = new List<PainelPeca>();
 
