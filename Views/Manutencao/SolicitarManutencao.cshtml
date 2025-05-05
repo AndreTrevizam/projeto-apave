@@ -1,0 +1,49 @@
+@model List<Painel>
+
+@{
+  ViewData["Title"] = "Solicitar Manutenção";
+}
+
+<div>
+  <h1>Solicitar Manutenção</h1>
+  <p>Solicite manutenções nos seus paineis </p>
+</div>
+
+@if (!Model.Any())
+{
+  <div class="alert alert-info">Nenhum painel cadastrado.</div>
+}
+else
+{
+  <div class="container">
+    <div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Data de criação</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (var paineis in Model)
+          {
+            <tr>
+              <td>@paineis.Nome</td>
+              <td>@paineis.Descricao</td>
+              <td>@paineis.DataCriacao.ToString("dd/MM/yyyy")</td>
+              <td>
+                <a href="ManutencaoInfo/@paineis.Id" class="btn btn-sm btn-primary">Solicitar Manutenção</a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+}
+
+<div>
+  <a href="/Home/Cliente" class="btn btn-primary">Voltar</a>
+</div>
