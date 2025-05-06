@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 
 public class Usuario
@@ -12,8 +13,14 @@ public class Usuario
   [EmailAddress, Required(ErrorMessage = "O Email é obrigatório.")]
   public string Email { get; set; }
 
-  [MinLength(6), Required(ErrorMessage = "A senha é obrigatória.")]
+  [Required(ErrorMessage = "A senha é obrigatória.")]
+  [MinLength(6, ErrorMessage = "A senha deve ter no minimo 6 caracteres")] 
   public string Senha { get; set; }
+
+  [NotMapped]
+  [Compare("Senha", ErrorMessage = "As senhas não coincidem")]
+  [Required(ErrorMessage = "A confirmação de senha é obrigatória.")]
+  public string ConfirmarSenha { get; set; }
 
   // Campos especificos para cliente
   [RegularExpression(@"^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$",
