@@ -58,7 +58,7 @@ public class ManutencaoController : Controller
 
     if (painel == null)
     {
-      return RedirectToAction("SolicitarManutencao"); 
+      return RedirectToAction("SolicitarManutencao");
     }
 
     return View(painel);
@@ -93,5 +93,18 @@ public class ManutencaoController : Controller
     await _db.SaveChangesAsync();
 
     return RedirectToAction("GerenciarManutencoes", "Funcionario");
+  }
+
+  public IActionResult ListarManutencao()
+  {
+    // var painel = _db.Painel
+    //   .Include(p => p.Manutencoes);
+
+    // if (painel == null)
+    // {
+    //   return Content("<div class='alert alert-danger'>Painel não encontrado</div>");
+    // }
+
+    return View("ListarManutencao");
   }
 }
