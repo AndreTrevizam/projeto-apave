@@ -97,14 +97,8 @@ public class ManutencaoController : Controller
 
   public IActionResult ListarManutencao()
   {
-    // var painel = _db.Painel
-    //   .Include(p => p.Manutencoes);
+    var manutencoes = _db.SolicitacaoManutencao.ToList();
 
-    // if (painel == null)
-    // {
-    //   return Content("<div class='alert alert-danger'>Painel não encontrado</div>");
-    // }
-
-    return View("ListarManutencao");
+    return View(manutencoes);
   }
 }
