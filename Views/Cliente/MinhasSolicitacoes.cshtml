@@ -4,32 +4,45 @@
     ViewData["Title"] = "Minhas Solicitações";
 }
 
-<h2>Minhas Solicitações</h2>
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Nenhum painel solicitado.</div>
 
-<p>Aqui você verá suas solicitações de novos painéis ou manutenções.</p>
+    <div>
+        <a href="/Home/Cliente" class="btn btn-primary">Voltar</a>
+    </div>
+}
+else
+{
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nome do painel</th>
-            <th>Descrição</th>
-            <th>Status</th>
-            <th>Data de solicitação</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var solicitacao in Model)
-        {
+    <h2>Minhas Solicitações</h2>
+
+    <p>Aqui você verá suas solicitações de novos painéis ou manutenções.</p>
+
+    <table class="table">
+        <thead>
             <tr>
-                <td>@solicitacao.NomePainel</td>
-                <td>@solicitacao.Descricao</td>
-                <td>@solicitacao.Status</td>
-                <td>@solicitacao.DataSolicitacao.ToString("dd/MM/yyyy")</td>
+                <th>Nome do painel</th>
+                <th>Descrição</th>
+                <th>Status</th>
+                <th>Data de solicitação</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var solicitacao in Model)
+            {
+                <tr>
+                    <td>@solicitacao.NomePainel</td>
+                    <td>@solicitacao.Descricao</td>
+                    <td>@solicitacao.Status</td>
+                    <td>@solicitacao.DataSolicitacao.ToString("dd/MM/yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-<div>
-  <a href="/Home/Cliente" class="btn btn-primary">Voltar</a>
-</div>
+    <div>
+        <a href="/Home/Cliente" class="btn btn-primary">Voltar</a>
+    </div>
+    
+}

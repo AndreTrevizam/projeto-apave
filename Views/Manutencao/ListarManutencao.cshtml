@@ -1,5 +1,29 @@
+@model List<SolicitacaoManutencao>
+
 @{
     ViewData["Title"] = "Minhas manutenções";
 }
 
-<h1>teste</h1>
+<h1>Minhas Manutenções</h1>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Status</th>
+                <th>Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var manutencao in Model) {
+                <tr>
+                    <td>@manutencao.Descricao</td>
+                    <td>@manutencao.StatusManutencao</td>
+                    <td>@manutencao.DataSolicitacao</td>
+                </tr>
+            }
+        </tbody>
+        
+    </table>
+</div>
