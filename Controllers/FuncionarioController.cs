@@ -23,7 +23,12 @@ namespace projeto_apave.Controllers
                 .ToListAsync();
             return View(paineis);
         }
-
+        public async Task<IActionResult> GerenciarPecas()
+        {
+            var pecas = await _db.Peca
+                .ToListAsync();
+            return View(pecas);
+        }
         public async Task<IActionResult> GerenciarManutencoes()
         {
             var manutencoes = await _db.SolicitacaoManutencao
@@ -79,6 +84,13 @@ namespace projeto_apave.Controllers
             return RedirectToAction("AprovarSolicitacoes");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CadastrarPeca(Peca peca)
+        {
+            _db.Peca.Add(peca);
+            await _db.SaveChangesAsync();
 
+            return RedirectToAction("GerenciarPecas");
+        }
     }
 }

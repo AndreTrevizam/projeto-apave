@@ -1,0 +1,102 @@
+@model List<Peca>
+
+@{
+  ViewData["Title"] = "Gerenciar Peças";
+}
+
+<div>
+  <h2>Gerenciar Peças</h2>
+  <p>Lista de peças cadastradas.</p>
+  <div class="mb-2">
+    <a href="/Peca/CadastrarPeca" class="btn btn-primary">Cadastrar Peça</a>
+  </div>
+</div>
+
+@if (!Model.Any())
+{
+  <div class="alert alert-info">Nenhuma peça cadastrada.</div>
+}
+else
+{
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th>Data de Criação</th>
+        <th>Data de Alteração</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var pecas in Model)
+      {
+        <tr>
+          <td>@pecas.Nome</td>
+          <td>@pecas.Descricao</td>
+          <td>@pecas.DataCriacao.ToString("dd/MM/yyyy")</td>
+          <td>@pecas.DataAlteracao.ToString()</td>
+          <td>
+            <a href="/Peca/EditarPeca/@pecas.Id" class="btn btn-sm btn-warning">Editar</a>
+            <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#modalConfirmarExclusao"
+              data-peca-id="@pecas.Id" data-peca-nome="@pecas.Nome">
+              Excluir
+            </a>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
+
+<div>
+  <a href="/Home/Funcionario" class="btn btn-primary">Voltar</a>
+</div>
+
+<div class="modal fade" id="modalConfirmarExclusao" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="formExcluirPeca" method="post">
+        <input type="hidden" name="id" id="pecaIdExcluir" />
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLabel">Confirmar Exclusão</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          Tem certeza que deseja excluir a peça <strong id="pecaNomeExcluir"></strong>?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-danger">Excluir</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+  <script>
+    const modalExcluir = document.getElementById('modalConfirmarExclusao');
+    modalExcluir.addEventListener('show.bs.modal', function (event) {
+      const button = event.relatedTarget;
+      const pecaId = button.getAttribute('data-peca-id');
+      const pecaNome = button.getAttribute('data-peca-nome');
+
+      document.getElementById('pecaIdExcluir').value = pecaId;
+      document.getElementById('pecaNomeExcluir').textContent = pecaNome;
+
+      // Atualiza o action do form (opcional, se for usar URL dinâmica)
+      const form = document.getElementById('formExcluirPeca');
+      form.action = `/Peca/RemoverPeca`; // ou use asp-action no form
+    });
+
+    // Limpa o modal quando fechar
+    modalInfo.addEventListener('hidden.bs.modal', function () {
+      document.getElementById('modalInfoBody').innerHTML = `
+                              <div class="text-center">
+                                <div class="spinner-border" role="status">
+                                  <span class="visually-hidden">Carregando...</span>
+                                </div>
+                              </div>`;
+    });
+  </script>
+}

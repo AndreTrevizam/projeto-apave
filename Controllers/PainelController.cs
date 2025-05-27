@@ -65,6 +65,7 @@ namespace projeto_apave.Controllers
     [Authorize(Roles = "Funcionario")]
     public IActionResult RemoverPainel(int id)
     {
+      Console.WriteLine("uepa");
       var painel = _db.Painel.Find(id);
       if (painel == null)
       {
