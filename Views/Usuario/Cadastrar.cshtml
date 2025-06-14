@@ -1,5 +1,5 @@
 @{
-  ViewData["Title"] = "Cadastrar";
+    ViewData["Title"] = "Cadastrar";
 }
 
 @model Usuario
@@ -34,20 +34,25 @@
 
             <div class="mb-3">
                 <label for="ConfirmarSenha" class="form-label">Confirme a senha</label>
-                <input type="password" asp-for="ConfirmarSenha" class="form-control" placeholder="Confirmar Senha" required>
+                <input type="password" asp-for="ConfirmarSenha" class="form-control" placeholder="Confirmar Senha"
+                    required>
                 <span asp-validation-for="ConfirmarSenha" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
                 <label for="Telefone" class="form-label">Telefone (Opcional)</label>
-                <input type="text" asp-for="Telefone" class="form-control" placeholder="Telefone" 
-                       pattern="^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$" 
-                       title="Informe um telefone válido. Ex: (11) 91234-5678">
+                <input type="text" asp-for="Telefone" class="form-control" placeholder="Telefone"
+                    pattern="^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$" title="Informe um telefone válido. Ex: (11) 91234-5678">
                 <span asp-validation-for="Telefone" class="text-danger"></span>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
-        </div>
+            <div class="mb-3">
+                <input asp-for="EhFuncionario" type="checkbox" class="form-check-input">
+                <label asp-for="EhFuncionario" class="form-label">Cadastrar como funcionário?</label>
+            </div>
+
+        <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
+    </div>
     </div>
 </form>
 
