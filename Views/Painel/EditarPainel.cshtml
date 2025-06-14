@@ -23,19 +23,19 @@
         </div>
 
         <div class="col-md-4">
-            <label asp-for="Altura" class="form-label"></label>
+            <label asp-for="Altura" class="form-label">Altura (CM)</label>
             <input asp-for="Altura" class="form-control" />
             <span asp-validation-for="Altura" class="text-danger"></span>
         </div>
 
         <div class="col-md-4">
-            <label asp-for="Largura" class="form-label"></label>
+            <label asp-for="Largura" class="form-label">Largura (CM)</label>
             <input asp-for="Largura" class="form-control" />
             <span asp-validation-for="Largura" class="text-danger"></span>
         </div>
 
         <div class="col-md-4">
-            <label asp-for="Comprimento" class="form-label"></label>
+            <label asp-for="Comprimento" class="form-label">Comprimento (CM)</label>
             <input asp-for="Comprimento" class="form-control" />
             <span asp-validation-for="Comprimento" class="text-danger"></span>
         </div>
@@ -45,7 +45,14 @@
                 class="btn btn-success">
                 Adicionar peças
             </a>
+            
+            <a asp-action="RemoverPeca" asp-controller="Painel" asp-route-painelId="@Model.Id"
+                class="btn btn-danger">
+                Remover peças
+            </a>
         </div>
+
+        
 
         <div class="col-12">
             <button type="submit" class="btn btn-primary">Salvar</button>
