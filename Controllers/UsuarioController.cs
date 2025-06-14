@@ -14,9 +14,7 @@ public class UsuarioController : Controller {
 
   [HttpGet]
   public IActionResult Cadastrar(TipoUsuario? tipo = null) {
-    // Se nenhum tipo for especificado vai cadastrar como cliente
-    var usuario = new Usuario { Tipo = tipo ?? TipoUsuario.Cliente };
-    return View(usuario);
+    return View();
   }
 
   [HttpPost]
@@ -27,6 +25,7 @@ public class UsuarioController : Controller {
     }
 
     if (ModelState.IsValid) {
+      usuario.Tipo = usuario.EhFuncionario ? TipoUsuario.Funcionario : TipoUsuario.Cliente;
       usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
       _db.Usuario.Add(usuario);
       await _db.SaveChangesAsync();
