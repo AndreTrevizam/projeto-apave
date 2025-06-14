@@ -27,6 +27,9 @@ public class Usuario
     ErrorMessage = "Informe um telefone válido."), MaxLength(20)]
   public string? Telefone { get; set; }
 
+  [NotMapped]
+  public bool EhFuncionario { get; set; }
+
   // O default de criação de um usuário é do tipo Cliente
   [Required]
   public TipoUsuario Tipo { get; set; }
