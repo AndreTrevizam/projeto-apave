@@ -175,5 +175,36 @@ namespace projeto_apave.Controllers
 
       return PartialView("_InformacoesPainel", painel);
     }
+
+    // GET: Mostra confirmação para remover a peça
+    [HttpGet]
+    public IActionResult RemoverPeca(int painelId)
+    {
+      var painel = _db.Painel
+          .Include(p => p.Pecas)
+              .ThenInclude(pp => pp.Peca)
+          .FirstOrDefault(p => p.Id == painelId);
+
+      if (painel == null)
+        return NotFound();
+
+      return View(painel);
+    }
+
+    // POST: Realiza a exclusão da peça
+    [HttpPost]
+    public async Task<IActionResult> RemoverPeca(int painelId, int pecaId)
+    {
+      var painelPeca = await _db.PainelPeca
+          .FirstOrDefaultAsync(pp => pp.PainelId == painelId && pp.PecaId == pecaId);
+
+      if (painelPeca == null)
+        return NotFound();
+
+      _db.PainelPeca.Remove(painelPeca);
+      await _db.SaveChangesAsync();
+
+      return RedirectToAction("EditarPainel", new { id = painelId });
+    }
   }
 }
