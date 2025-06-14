@@ -1,0 +1,31 @@
+@model projeto_apave.Models.Painel
+
+<h2>Peças associadas ao painel</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Nome da Peça</th>
+      <th>Quantidade</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var pp in Model.Pecas)
+    {
+      <tr>
+        <td>@pp.Peca.Nome</td>
+        <td>@pp.Quantidade</td>
+        <td>
+          <form asp-action="RemoverPeca" method="post">
+            <input type="hidden" name="painelId" value="@Model.Id" />
+            <input type="hidden" name="pecaId" value="@pp.PecaId" />
+            <button type="submit" class="btn btn-danger">Remover</button>
+          </form>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+<a asp-action="GerenciarPaineis" asp-controller="Funcionario" class="btn btn-primary ms-2">Voltar</a>
